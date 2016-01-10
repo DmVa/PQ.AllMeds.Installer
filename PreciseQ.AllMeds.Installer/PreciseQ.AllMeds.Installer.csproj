@@ -35,8 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParty\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,6 +61,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Service\ConfigService.cs" />
+    <Compile Include="Service\SettingsService.cs" />
+    <Compile Include="Updater\ConfigConverter.cs" />
+    <Compile Include="Updater\UpdateFileConfigBase.cs" />
+    <Compile Include="Updater\UpdateFileConfigCustom.cs" />
+    <Compile Include="Updater\UpdateManager.cs" />
+    <Compile Include="Updater\UpdateProgressEventArgs.cs" />
+    <Compile Include="Setting\ApplicationInstance.cs" />
+    <Compile Include="Setting\ConfigOverride.cs" />
+    <Compile Include="Setting\SiteInstance.cs" />
+    <Compile Include="Updater\WorkerInstallCmdConverter.cs" />
+    <Compile Include="Utils\FolderDialogExt.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="View\AppInstance.xaml.cs">
+      <DependentUpon>AppInstance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ConfigOverrideSettingControl.xaml.cs">
+      <DependentUpon>ConfigOverrideSettingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SiteInstance.xaml.cs">
+      <DependentUpon>SiteInstance.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -63,10 +91,25 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Base\BaseCommand.cs" />
+    <Compile Include="Base\BasePropertyChanged.cs" />
+    <Compile Include="Config\InstallerConfigSection.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\AppInstance.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConfigOverrideSettingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SiteInstance.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -95,6 +138,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
