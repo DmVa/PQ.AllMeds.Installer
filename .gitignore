@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/PreciseQ.AllMeds.Installer/bin
+/PreciseQ.AllMeds.Installer/obj/Debug
+/.vs/PreciseQ.AllMeds.Installer/v14/.suo
