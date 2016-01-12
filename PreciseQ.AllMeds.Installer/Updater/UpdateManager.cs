@@ -1,5 +1,4 @@
-﻿using PreciseQ.AllMeds.Installer.Settings;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +7,8 @@ using log4net;
 using System.IO;
 using PreciseQ.AllMeds.Installer.Updater;
 using System.Diagnostics;
+using PreciseQ.AllMeds.Installer.Setting;
+using PreciseQ.AllMeds.Installer.Updater.Components;
 
 namespace PreciseQ.AllMeds.Installer.Updater
 {
@@ -51,80 +52,10 @@ namespace PreciseQ.AllMeds.Installer.Updater
 
         private void UpdateInstance(ApplicationInstance appInstance)
         {
-            RaiseUpdateProgerss("Copy sources");
-           
-            string instanceFolder = CopySources(appInstance);
-            RaiseUpdateProgerss("Copied, Update ConnectionStrings");
-            List<UpdateFileConfigBase> components = CreateUpdateComponentsList(instanceFolder, appInstance);
-            UpdateConnectionString(appInstance, components);
-            RaiseUpdateProgerss("Updated, Update custom setting");
-            UpdateCustomSettings(appInstance, components);
-            RaiseUpdateProgerss("Updated, Update custom files");
-            UpdateCustomFiles(instanceFolder, appInstance);
-            RunSqlUpdater(instanceFolder);
-            RaiseUpdateProgerss("Updated");
-        }
-
-        private void RunSqlUpdater(string instanceFolder)
-        {
-            string fullFileName = Path.Combine(instanceFolder, @"DB\DBUpdater\Updater.exe");
-            Process process = new Process();
-            process.StartInfo.FileName = fullFileName;
-            //process.StartInfo.Arguments = "-n";
-            process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
-            process.Start();
-            process.WaitForExit();
-        }
-
-        private void UpdateCustomFiles(string instanceFolder, ApplicationInstance appInstance)
-        {
-            string fullFileName = Path.Combine(instanceFolder, "Worker\\Installworker.cmd");
-            WorkerInstallCmdConverter.Apply(fullFileName, appInstance.VirtualApplicationName);
-        }
-
-        private List<UpdateFileConfigBase> CreateUpdateComponentsList(string instanceFolder, ApplicationInstance appInstance)
-        {
-            List<UpdateFileConfigBase> components = new List<UpdateFileConfigBase>();
-
-            var dbUpdater = new UpdateFileConfigDbUpdater();
-            dbUpdater.Init(instanceFolder);
-            components.Add(dbUpdater);
-
-            var site = new UpdateFileConfigWebSite();
-            site.Init(instanceFolder);
-            site.CustomConfigOverride = appInstance.SiteConfig;
-            components.Add(site);
-
-            var worker = new UpdateFileConfigWorker();
-            worker.Init(instanceFolder);
-            worker.CustomConfigOverride = appInstance.WorkerConfig;
-            components.Add(worker);
-
-            return components;
-        }
-
-        private void UpdateConnectionString(ApplicationInstance appInstance, List<UpdateFileConfigBase> components)
-        {
-            foreach(var component in components)
-            {
-                component.SetPredefinedConfigOverride(appInstance.ConnectionString);
-                ConfigConverter.Apply(component.FullFileFileName, component.PredefinedConfigOverride);
-            }
-        }
-        private void UpdateCustomSettings(ApplicationInstance appInstance, List<UpdateFileConfigBase> components)
-        {
-            foreach (var component in components)
-            {
-                ConfigConverter.Apply(component.FullFileFileName, component.CustomConfigOverride);
-            }
-        }
-
-        private string CopySources(ApplicationInstance appInstance)
-        {
             string rootFolder = _settings.RepositoryFolder;
             if (!Directory.Exists(rootFolder))
             {
-                throw new ApplicationException($"Directory {rootFolder} does not exists");                
+                throw new ApplicationException($"Directory {rootFolder} does not exists");
             }
 
             if (string.IsNullOrEmpty(_settings.InstancesRootFolder))
@@ -132,72 +63,72 @@ namespace PreciseQ.AllMeds.Installer.Updater
                 throw new ApplicationException("Instances RootFolder is not defined");
             }
 
-            string instanceFolder = Path.Combine(_settings.InstancesRootFolder, appInstance.VirtualApplicationName);
+            RaiseUpdateProgerss($"Update {appInstance.VirtualApplicationName}");
+            List<UpdateComponentBase> components = CreateUpdateComponentsList(appInstance);
 
-            DirectoryInfo sourceDir = new DirectoryInfo(rootFolder);
-            DirectoryInfo targetDir = new DirectoryInfo(instanceFolder);
-            
-            CopyFiles(sourceDir, targetDir);
-            return instanceFolder;
+            foreach (var component in components)
+                component.PreCopySources();
+
+            foreach (var component in components)
+                component.CopySources();
+
+            foreach (var component in components)
+                component.PostCopySources();
+
+            foreach (var component in components)
+                component.UpdateConfig();
+
+            foreach (var component in components)
+                component.PostUpdateConfig();
+
+            foreach (var component in components)
+                component.PrepareStart();
+
         }
 
-        private void CopyFiles(DirectoryInfo sourceDir, DirectoryInfo targetDir)
+        private void RunSqlUpdater(string instanceFolder)
         {
-            if (!targetDir.Exists)
-                targetDir.Create();
+            string updaterFolder = Path.Combine(instanceFolder, "DB\\DBUpdater");
+            string fullFileName = Path.Combine(updaterFolder, @"Updater.exe");
+            Process process = new Process();
+            process.StartInfo.FileName = fullFileName;
+            process.StartInfo.UseShellExecute = true;
+            process.StartInfo.WorkingDirectory = updaterFolder;
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+            process.Start();
+            process.WaitForExit();
+        }
 
-            System.IO.FileInfo[]  files = sourceDir.GetFiles("*.*");
-            foreach (System.IO.FileInfo sourceFile in files)
+        private List<UpdateComponentBase> CreateUpdateComponentsList(ApplicationInstance appInstance)
+        {
+            List<UpdateComponentBase> components = new List<UpdateComponentBase>();
+            if (appInstance.IsUpdateWorker)
             {
-                if (IsValidToCopy(sourceFile))
-                {
-                    string destFileName = GetDestFileName(sourceFile, targetDir);
-                    sourceFile.CopyTo(destFileName, true);
-                }
+                var updateComponent = new WorkerComponent(_settings, appInstance);
+                updateComponent.Init(RaiseUpdateProgerss);
+                components.Add(updateComponent);
             }
 
-            // First, process all the files directly under this folder
-            System.IO.DirectoryInfo[]  subDirs = sourceDir.GetDirectories();
-            foreach (System.IO.DirectoryInfo dirInfo in subDirs)
+            if (appInstance.IsUpdateSite)
             {
-                if (IsValidToCopy(dirInfo))
-                {
-                    DirectoryInfo targetSubDir = GetDestDir(dirInfo.Name, targetDir);
-                    CopyFiles(dirInfo, targetSubDir);
-                }
+                var updateComponent = new WebSiteComponent(_settings, appInstance);
+                updateComponent.Init(RaiseUpdateProgerss);
+                components.Add(updateComponent);
             }
-        }
 
-        private string GetDestFileName(FileInfo sourceFile, DirectoryInfo targetDir)
-        {
-            string shortFileName = sourceFile.Name;
-            string destFileName = Path.Combine(targetDir.FullName, shortFileName);
-            return destFileName; 
-        }
+            if (appInstance.IsUpdateDb)
+            {
+                var updateComponent = new DbUpdaterComponent(_settings, appInstance);
+                updateComponent.Init(RaiseUpdateProgerss);
+                components.Add(updateComponent);
+            }
 
-        private DirectoryInfo GetDestDir(string subName, DirectoryInfo targetDir)
-        {
-            string dirName = targetDir.FullName;
-            string destDir = Path.Combine(dirName, subName);
-            return new DirectoryInfo(destDir);
-        }
-
-        private bool IsValidToCopy(DirectoryInfo dirInfo)
-        {
-            string dirName = dirInfo.Name;
-            if (string.Compare(dirName, ".svn", StringComparison.InvariantCultureIgnoreCase) == 0)
-                return false;
-            if (string.Compare(dirName, ".git", StringComparison.InvariantCultureIgnoreCase) == 0)
-                return false;
-            return true;
-        }
-        private bool IsValidToCopy(FileInfo fileInfo)
-        {
-            return true;
+            return components;
         }
 
         private void RaiseUpdateProgerss(string message)
         {
+            _log.Info(message);
             RaiseUpdateProgerss(UpdateProgressStatus.None, message);
         }
 

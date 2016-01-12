@@ -1,10 +1,10 @@
-﻿using PreciseQ.AllMeds.Installer.Settings;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PreciseQ.AllMeds.Installer.Setting;
 
 namespace PreciseQ.AllMeds.Installer.Updater
 {
@@ -12,7 +12,7 @@ namespace PreciseQ.AllMeds.Installer.Updater
     {
         public override void Init(string instanceFolder)
         {
-            RelativeFileName = "web\\web.config";
+            RelativeConfigFileName = "web\\web.config";
             SetFullFileNameFromRelative(instanceFolder);
         }
 
@@ -27,7 +27,7 @@ namespace PreciseQ.AllMeds.Installer.Updater
             ConfigOverride connStrAllMeds = new ConfigOverride();
             connStrAllMeds.ConfigXPath = @"/configuration/connectionStrings/add[@name='AllMedsContext']";
             connStrAllMeds.AttributeName = "connectionString";
-            connStrAllMeds.Value = connectionString+";MultipleActiveResultSets = True;App = EntityFramework";
+            connStrAllMeds.Value = connectionString+";MultipleActiveResultSets=True;App = EntityFramework";
             PredefinedConfigs.Add(connStrAllMeds);
         }
     }
@@ -35,7 +35,7 @@ namespace PreciseQ.AllMeds.Installer.Updater
     {
         public override void Init(string instanceFolder)
         {
-            RelativeFileName = "Worker\\PreciseQ.AllMeds.TaskService.exe.config";
+            RelativeConfigFileName = "Worker\\PreciseQ.AllMeds.TaskService.exe.config";
             SetFullFileNameFromRelative(instanceFolder);
         }
 
@@ -44,15 +44,16 @@ namespace PreciseQ.AllMeds.Installer.Updater
             ConfigOverride connStrAllMeds = new ConfigOverride();
             connStrAllMeds.ConfigXPath = @"/configuration/connectionStrings/add[@name='AllMedsContext']";
             connStrAllMeds.AttributeName = "connectionString";
-            connStrAllMeds.Value = connectionString + ";MultipleActiveResultSets = True;App = EntityFramework";
+            connStrAllMeds.Value = connectionString + ";MultipleActiveResultSets= True;App = EntityFramework";
             PredefinedConfigs.Add(connStrAllMeds);
         }
     }
+
     public class UpdateFileConfigDbUpdater : UpdateFileConfigBase
     {
         public override void Init(string instanceFolder)
         {
-            RelativeFileName = "Db\\DbUpdater\\Updater.exe.config";
+            RelativeConfigFileName = "Db\\DbUpdater\\Updater.exe.config";
             SetFullFileNameFromRelative(instanceFolder);
         }
 

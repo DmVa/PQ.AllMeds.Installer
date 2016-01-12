@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PreciseQ.AllMeds.Installer.View"
+        xmlns:view="clr-namespace:PreciseQ.AllMeds.Installer.View"
         mc:Ignorable="d"
-        Title="Application" Height="400" Width="700" WindowStartupLocation="CenterOwner" >
+        Title="Application" Height="700" Width="900" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" >
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -14,16 +14,18 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Vertical">
-                <Button x:Name="buttonOk" Content="Ok" Margin="5" Height="30" VerticalAlignment="Top" Click="ButtonOk_Click" />
-                <Button x:Name="buttonClose" Content="Cancel" Margin="5" Height="30" VerticalAlignment="Top" Click="ButtonClose_Click" />
+                <Button x:Name="buttonOk" Content="Ok" Margin="5" Height="35" VerticalAlignment="Top" Click="ButtonOk_Click" />
+                <Button x:Name="buttonClose" Content="Cancel" Margin="5" Height="35" VerticalAlignment="Top" Click="ButtonClose_Click" />
             </StackPanel>
 
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="35" />
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
                     <RowDefinition Height="1*"/>
-               </Grid.RowDefinitions>
+               </Grid.RowDefinitions> 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="140"/>
                     <ColumnDefinition Width="1*"/>
@@ -34,19 +36,29 @@
 
                 <Label VerticalAlignment="Center" Grid.Row="1">Connection String</Label>
                 <TextBox  Grid.Row="1" Grid.Column="1" Text="{Binding Path=ConnectionString, Mode=TwoWay}" Margin="2" VerticalContentAlignment="Center"></TextBox>
-
-                <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                
+                <StackPanel Grid.Row="2" Orientation="Horizontal" Grid.ColumnSpan="2"  >
+                    <CheckBox IsChecked="{Binding Path=IsUpdateSite}" Margin="2,2,2,2" VerticalContentAlignment="Center">Update Site</CheckBox>
+                    <CheckBox IsChecked="{Binding Path=IsUpdateWorker}" Margin="20,2,2,2" VerticalContentAlignment="Center">Update Worker</CheckBox>
+                    <CheckBox IsChecked="{Binding Path=IsUpdateDb}" Margin="20,2,2,2" VerticalContentAlignment="Center">Update Database</CheckBox>
+                </StackPanel>
+                <StackPanel Grid.Row="3" Orientation="Horizontal" Grid.ColumnSpan="2"  >
+                    <Button Margin="2" Click="ButtonEhrSettings_Click" Width="130" DataContext="{Binding Path=EhrSftpSettings}">EHR Sftp Settings </Button>
+                    <Button Margin="20,2,2,2" Click="ButtonEdiSettings_Click" Width="130" DataContext="{Binding Path=EdiSftpSettings}">EDI Sftp Settings</Button>
+                </StackPanel>
+                
+                <Grid Grid.Row="4" Grid.ColumnSpan="2">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="30" />
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="30" />
-                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="160"/>
+                        <RowDefinition Height="35" />
+                        <RowDefinition Height="160"/>
                     </Grid.RowDefinitions>
-                    <Label VerticalAlignment="Center" >Site Config</Label>
-                    <local:ConfigOverrideSettingControl Grid.Row="1" DataContext="{Binding SiteConfig}"></local:ConfigOverrideSettingControl>
+                    <Label VerticalAlignment="Center" >Additional Site Config Override</Label>
+                    <view:ConfigOverrideSettingControl Grid.Row="1" DataContext="{Binding SiteConfig}"></view:ConfigOverrideSettingControl>
 
-                    <Label VerticalAlignment="Center" Grid.Row="2">Worker Config</Label>
-                    <local:ConfigOverrideSettingControl Grid.Row="3" DataContext="{Binding WorkerConfig}"></local:ConfigOverrideSettingControl>
+                    <Label VerticalAlignment="Center" Grid.Row="2">Additional Worker Config Override</Label>
+                    <view:ConfigOverrideSettingControl Grid.Row="3" DataContext="{Binding WorkerConfig}"></view:ConfigOverrideSettingControl>
                 </Grid>
                 
 

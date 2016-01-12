@@ -1,4 +1,4 @@
-﻿using PreciseQ.AllMeds.Installer.Settings;
+﻿
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using PreciseQ.AllMeds.Installer.Setting;
 
 namespace PreciseQ.AllMeds.Installer.Service
 {
@@ -31,10 +32,10 @@ namespace PreciseQ.AllMeds.Installer.Service
                 using (FileStream reader = new FileStream(fileName, FileMode.Open))
                 {
                     settings = (SiteInstance)ser.Deserialize(reader);
-                    foreach (var item in settings.Instances)
-                    {
-                        item.IsChecked = true;
-                    }
+                    //foreach (var item in settings.Instances)
+                    //{
+                    //    item.IsChecked = true;
+                    //}
                     reader.Close();
                 }
             }

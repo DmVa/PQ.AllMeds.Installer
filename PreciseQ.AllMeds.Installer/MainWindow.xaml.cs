@@ -1,8 +1,8 @@
-﻿using PreciseQ.AllMeds.Installer.Settings;
-using PreciseQ.AllMeds.Installer.View;
+﻿using PreciseQ.AllMeds.Installer.View;
 using PreciseQ.AllMeds.Installer.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PreciseQ.AllMeds.Installer.Setting;
 
 namespace PreciseQ.AllMeds.Installer
 {
@@ -29,6 +30,12 @@ namespace PreciseQ.AllMeds.Installer
             _model = new MainViewModel();
             DataContext = _model;
             InitializeComponent();
+            InstancesList.AddHandler(MouseDoubleClickEvent, new RoutedEventHandler(HandleInstancesListDoubleClick));
+        }
+
+        private void HandleInstancesListDoubleClick(object sender, RoutedEventArgs e)
+        {
+            CloneAndEditSetting(false);
         }
 
         public ApplicationInstance Selected
@@ -75,7 +82,10 @@ namespace PreciseQ.AllMeds.Installer
             if (window.DialogResult == true)
             {
                 if (makeClone)
+                {
                     _model.SiteConfig.Instances.Add(settingsCopy);
+                    _model.SaveSettings();
+                }
                 else
                     _model.SiteConfig.Instances[selectedIndex] = settingsCopy;
             }

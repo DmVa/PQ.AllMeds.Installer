@@ -3,11 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PreciseQ.AllMeds.Installer"
         xmlns:view="clr-namespace:PreciseQ.AllMeds.Installer.View"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"  
-        Title="AMPM Updater" Height="500" Width="800">
+        Title="AMPM Updater" Height="800" Width="1024">
+   
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
@@ -15,19 +15,19 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Orientation="Vertical">
-            <Button x:Name="buttonSaveSetting" Content="Save Settings" Margin="5" Height="30" Command="{Binding SaveCommand}" />
-            <Button x:Name="buttonAddSetting" Content="Add Application" Margin="5" Height="30" Click="buttonAddSetting_Click" Command="{Binding BaseUICommand}" />
-            <Button x:Name="buttonEditApplication" Content="Edit Selected  Application" Margin="5" Height="30" Click="buttonEditSetting_Click"  Command="{Binding BaseUICommand}" />
-            <Button x:Name="buttonCloneAplication" Content="Clone Selected  Application" Margin="5" Height="30" Click="buttonCloneSetting_Click"  Command="{Binding BaseUICommand}" />
-            <Button x:Name="buttonDeleteApplication" Content="Delete Selected Application" Margin="5" Height="30" Click="buttonDeleteApplication_Click" Command="{Binding BaseUICommand}"/>
-            <Button x:Name="buttonUpdateSelected" Content="Update Checked Applications" Margin="5" Height="30" Command="{Binding DoUpdateCommand}" />
+            <Button x:Name="buttonSaveSetting" Content="Save Settings" Margin="5" Height="35" Command="{Binding SaveCommand}" />
+            <Button x:Name="buttonAddSetting" Content="Add Application" Margin="5" Height="35" Click="buttonAddSetting_Click" Command="{Binding BaseUICommand}" />
+            <Button x:Name="buttonEditApplication" Content="Edit Selected  Application" Margin="5" Height="35" Click="buttonEditSetting_Click"  Command="{Binding BaseUICommand}" />
+            <Button x:Name="buttonCloneAplication" Content="Clone Selected  Application" Margin="5" Height="35" Click="buttonCloneSetting_Click"  Command="{Binding BaseUICommand}" />
+            <Button x:Name="buttonDeleteApplication" Content="Delete Selected Application" Margin="5" Height="35" Click="buttonDeleteApplication_Click" Command="{Binding BaseUICommand}"/>
+            <Button x:Name="buttonUpdateSelected" Content="Update Checked Applications" Margin="5" Height="35" Command="{Binding DoUpdateCommand}" />
         </StackPanel>
         
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="300"/>
                 <RowDefinition Height="1*"/>
-                <RowDefinition Height="200"/>
             </Grid.RowDefinitions>
             
             <view:SiteInstance Grid.Row="0" DataContext="{Binding SiteConfig}"></view:SiteInstance>
@@ -51,6 +51,30 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
+                        
+                        <GridViewColumn Header="Update Site"  Width="Auto"  >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsUpdateSite}" IsEnabled="False"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        
+                        <GridViewColumn Header="Update Worker"  Width="Auto" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsUpdateWorker}" IsEnabled="False" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        
+                        <GridViewColumn Header="Update Database"  Width="Auto" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsUpdateDb}" IsEnabled="False"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
                     </GridView>
                 </ListView.View>
@@ -58,7 +82,7 @@
 
             <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="35"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
 

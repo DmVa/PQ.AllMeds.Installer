@@ -5,14 +5,17 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PreciseQ.AllMeds.Installer.Setting;
 
-namespace PreciseQ.AllMeds.Installer.Settings
+namespace PreciseQ.AllMeds.Installer.Setting
 {
     [Serializable]
     public class SiteInstance : BasePropertyChanged
     {
-        private string _instancesRootFolder { get; set; }
-        private string _repositoryFolder { get; set; }
+        private string _instancesRootFolder;
+        private string _repositoryFolder;
+
+        private string _sftpRootFolder;
 
         private ObservableCollection<ApplicationInstance> _instances;
         public SiteInstance()
@@ -45,6 +48,21 @@ namespace PreciseQ.AllMeds.Installer.Settings
                 RaisePropertyChanged(nameof(InstancesRootFolder));
             }
         }
+
+        
+        public string SftpRootFolder
+        {
+            get
+            {
+                return _sftpRootFolder;
+            }
+            set
+            {
+                _sftpRootFolder = value;
+                RaisePropertyChanged(nameof(SftpRootFolder));
+            }
+        }
+
         public ObservableCollection<ApplicationInstance> Instances
         {
             get

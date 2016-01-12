@@ -7,7 +7,6 @@ using System.Configuration;
 
 namespace PreciseQ.AllMeds.Installer.Config
 {
-
     public class InstallerConfigSection : ConfigurationSection
     {
         [ConfigurationProperty("settingsfile", DefaultValue = "", IsRequired = false)]

@@ -8,20 +8,25 @@
              d:DesignHeight="300" d:DesignWidth="400">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="35" />
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="140"/>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="35"/>
         </Grid.ColumnDefinitions>
-        <Label VerticalAlignment="Center">Repository Root Folder</Label>
+        <Label VerticalAlignment="Center">Repository Folder</Label>
         <TextBox x:Name="ReposotoryFolderControl"  Grid.Row="0"  Grid.Column="1" Text="{Binding Path=RepositoryFolder, Mode=TwoWay}" VerticalContentAlignment="Center" Margin="2"></TextBox>
         <Button Content="..." Grid.Column="2" Click="btnRepositoryRootFolderClick" Margin="2"></Button>
         
         <Label VerticalAlignment="Center" Grid.Row="1">Instances Root Folder:</Label>
         <TextBox x:Name="InstancesFolderControl" Grid.Row="1" Grid.Column="1" Text="{Binding Path=InstancesRootFolder, Mode=TwoWay}" Margin="2" VerticalContentAlignment="Center"></TextBox>
         <Button Content="..." Grid.Column="2" Grid.Row="1" Click="btnInstancesRootFolderClick" Margin="2"></Button>
+
+        <Label VerticalAlignment="Center" Grid.Row="2">SFTP Root Folder:</Label>
+        <TextBox x:Name="SftpRootFolderFolderControl" Grid.Row="2" Grid.Column="1" Text="{Binding Path=SftpRootFolder, Mode=TwoWay}" Margin="2" VerticalContentAlignment="Center"></TextBox>
+        <Button Content="..." Grid.Column="2" Grid.Row="2" Click="btnSftpRootFolderClick" Margin="2"></Button>
     </Grid>
 </UserControl>

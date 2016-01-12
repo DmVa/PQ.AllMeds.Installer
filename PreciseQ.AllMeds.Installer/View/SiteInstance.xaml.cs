@@ -27,23 +27,30 @@ namespace PreciseQ.AllMeds.Installer.View
             InitializeComponent();
         }
 
-        private void btnRepositoryRootFolderClick(object sender, RoutedEventArgs e)
+        private void GetFolder(System.Windows.Controls.TextBox textBoxControl)
         {
             var dlg = new FolderBrowserDialog();
             System.Windows.Forms.DialogResult result = dlg.ShowDialog(this.GetIWin32Window());
             if (result == DialogResult.OK)
             {
-                ReposotoryFolderControl.Text = dlg.SelectedPath;
+                textBoxControl.Text = dlg.SelectedPath;
             }
         }
+
+        private void btnRepositoryRootFolderClick(object sender, RoutedEventArgs e)
+        {
+            GetFolder(ReposotoryFolderControl);
+        }
+
         private void btnInstancesRootFolderClick(object sender, RoutedEventArgs e)
         {
-            var dlg = new FolderBrowserDialog();
-            System.Windows.Forms.DialogResult result = dlg.ShowDialog(this.GetIWin32Window());
-            if (result == DialogResult.OK)
-            {
-                InstancesFolderControl.Text = dlg.SelectedPath;
-            }
+            GetFolder(InstancesFolderControl);
+        }
+
+        private void btnSftpRootFolderClick(object sender, RoutedEventArgs e)
+        {
+
+            GetFolder(SftpRootFolderFolderControl);
         }
     }
 }

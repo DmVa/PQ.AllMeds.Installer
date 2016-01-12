@@ -21,8 +21,8 @@
             <DataGrid VerticalScrollBarVisibility="Auto" Name="ItemsList" ItemsSource="{Binding Path=.}" 
                   AutoGenerateColumns="False" CanUserAddRows="True" SelectionMode="Single" MinHeight="150">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Node XPATH" Binding="{Binding ConfigXPath}" Width="2*"  />
-                    <DataGridTextColumn Header="Attribute Name" Binding="{Binding AttributeName}" Width="1*"  />
+                    <DataGridTextColumn Header="XPATH to Select Node" Binding="{Binding ConfigXPath}" Width="2*"  />
+                    <DataGridTextColumn Header="Attribute to Change" Binding="{Binding AttributeName}" Width="1*"  />
                     <DataGridTextColumn Header="New Value" Binding="{Binding Value}" Width="1*"  />
                 </DataGrid.Columns>
             </DataGrid>

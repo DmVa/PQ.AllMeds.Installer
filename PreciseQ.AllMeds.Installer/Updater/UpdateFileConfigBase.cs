@@ -1,18 +1,18 @@
-﻿using PreciseQ.AllMeds.Installer.Settings;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PreciseQ.AllMeds.Installer.Setting;
 
 namespace PreciseQ.AllMeds.Installer.Updater
 {
     public abstract class UpdateFileConfigBase
     {
         protected List<ConfigOverride> PredefinedConfigs;
-        public string RelativeFileName { get; protected set; }
-        public string FullFileFileName { get; protected set; }
+        public string RelativeConfigFileName { get; protected set; }
+        public string FullConfigFileName { get; protected set; }
         public UpdateFileConfigBase()
         {
             PredefinedConfigs = new List<ConfigOverride>();
@@ -34,7 +34,7 @@ namespace PreciseQ.AllMeds.Installer.Updater
         public IList<ConfigOverride> CustomConfigOverride { get; set; }
         protected void SetFullFileNameFromRelative(string instanceFolder)
         {
-            FullFileFileName = Path.Combine(instanceFolder, RelativeFileName);
+            FullConfigFileName = Path.Combine(instanceFolder, RelativeConfigFileName);
         }
     }
 }

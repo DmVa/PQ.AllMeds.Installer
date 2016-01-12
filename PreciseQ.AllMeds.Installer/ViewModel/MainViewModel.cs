@@ -1,6 +1,6 @@
 ﻿using PreciseQ.AllMeds.Installer.Base;
 using PreciseQ.AllMeds.Installer.Service;
-using PreciseQ.AllMeds.Installer.Settings;
+using PreciseQ.AllMeds.Installer.Setting;
 using PreciseQ.AllMeds.Installer.Updater;
 using System;
 using System.Collections.Generic;
@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace PreciseQ.AllMeds.Installer.ViewModel
@@ -42,6 +43,7 @@ namespace PreciseQ.AllMeds.Installer.ViewModel
         {
             get { return _siteConfig; }
         }
+
         #region "Commands"
         public ICommand SaveCommand
         {
@@ -55,6 +57,7 @@ namespace PreciseQ.AllMeds.Installer.ViewModel
         {
             get { return _baseUICommand; }
         }
+
         #endregion
 
         private void CreateCommands()
@@ -84,7 +87,7 @@ namespace PreciseQ.AllMeds.Installer.ViewModel
             }
         }
 
-        private void SaveSettings()
+        public void SaveSettings()
         {
             SettingsService.Current.SaveSettings(SiteConfig);
         }
@@ -92,6 +95,7 @@ namespace PreciseQ.AllMeds.Installer.ViewModel
         private void DoUpdate()
         {
             IsUpdateInProgress = true;
+            
             UpdateLogText = string.Empty;
             try
             {
@@ -111,10 +115,9 @@ namespace PreciseQ.AllMeds.Installer.ViewModel
                     IsUpdateInProgress = false;
                 };
 
-                IsUpdateInProgress = true;
                 bw.RunWorkerAsync();
             }
-            finally
+            catch
             {
                 IsUpdateInProgress = false;
             }

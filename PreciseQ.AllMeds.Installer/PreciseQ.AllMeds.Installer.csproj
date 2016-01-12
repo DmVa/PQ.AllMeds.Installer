@@ -42,6 +42,8 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -63,6 +65,11 @@
     </ApplicationDefinition>
     <Compile Include="Service\ConfigService.cs" />
     <Compile Include="Service\SettingsService.cs" />
+    <Compile Include="Setting\SftpSettings.cs" />
+    <Compile Include="Updater\Components\DbUpdaterComponent.cs" />
+    <Compile Include="Updater\Components\UpdateComponentBase.cs" />
+    <Compile Include="Updater\Components\WebSiteComponent.cs" />
+    <Compile Include="Updater\Components\WorkerComponent.cs" />
     <Compile Include="Updater\ConfigConverter.cs" />
     <Compile Include="Updater\UpdateFileConfigBase.cs" />
     <Compile Include="Updater\UpdateFileConfigCustom.cs" />
@@ -71,7 +78,6 @@
     <Compile Include="Setting\ApplicationInstance.cs" />
     <Compile Include="Setting\ConfigOverride.cs" />
     <Compile Include="Setting\SiteInstance.cs" />
-    <Compile Include="Updater\WorkerInstallCmdConverter.cs" />
     <Compile Include="Utils\FolderDialogExt.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="View\AppInstance.xaml.cs">
@@ -79,6 +85,12 @@
     </Compile>
     <Compile Include="View\ConfigOverrideSettingControl.xaml.cs">
       <DependentUpon>ConfigOverrideSettingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SftpSettings.xaml.cs">
+      <DependentUpon>SftpSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SftpSettingsWindow.xaml.cs">
+      <DependentUpon>SftpSettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SiteInstance.xaml.cs">
       <DependentUpon>SiteInstance.xaml</DependentUpon>
@@ -98,11 +110,27 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Theme\AppTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AppInstance.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ConfigOverrideSettingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SftpSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SftpSettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -138,7 +166,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Styles\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

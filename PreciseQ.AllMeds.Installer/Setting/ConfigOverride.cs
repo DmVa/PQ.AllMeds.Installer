@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PreciseQ.AllMeds.Installer.Settings
+namespace PreciseQ.AllMeds.Installer.Setting
 {
 
     [Serializable]
