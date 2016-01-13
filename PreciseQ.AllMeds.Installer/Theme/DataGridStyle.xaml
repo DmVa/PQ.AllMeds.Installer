@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:PreciseQ.AllMeds.Installer.Theme">
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#FF4169AA" />
+    <SolidColorBrush x:Key="PrimaryFont" Color="White" />
+    
+    <Style TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryFont}" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+    
+</ResourceDictionary>

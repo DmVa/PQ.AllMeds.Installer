@@ -20,7 +20,7 @@
             <Button x:Name="buttonEditApplication" Content="Edit Selected  Application" Margin="5" Height="35" Click="buttonEditSetting_Click"  Command="{Binding BaseUICommand}" />
             <Button x:Name="buttonCloneAplication" Content="Clone Selected  Application" Margin="5" Height="35" Click="buttonCloneSetting_Click"  Command="{Binding BaseUICommand}" />
             <Button x:Name="buttonDeleteApplication" Content="Delete Selected Application" Margin="5" Height="35" Click="buttonDeleteApplication_Click" Command="{Binding BaseUICommand}"/>
-            <Button x:Name="buttonUpdateSelected" Content="Update Checked Applications" Margin="5" Height="35" Command="{Binding DoUpdateCommand}" />
+            <Button x:Name="buttonUpdateSelected" Content="Update Checked Applications" Margin="5,30,5,5" Height="35" Command="{Binding DoUpdateCommand}" FontWeight="ExtraBold"  />
         </StackPanel>
         
         <Grid Grid.Column="1">
@@ -33,6 +33,11 @@
             <view:SiteInstance Grid.Row="0" DataContext="{Binding SiteConfig}"></view:SiteInstance>
 
             <ListView Grid.Row="1" x:Name="InstancesList" ItemsSource="{Binding Path=SiteConfig.Instances}" SelectedIndex="0">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
                         
@@ -51,24 +56,24 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        
-                        <GridViewColumn Header="Update Site"  Width="Auto"  >
+
+                        <GridViewColumn Header="Update Site"  Width="100"  >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox IsChecked="{Binding IsUpdateSite}" IsEnabled="False"/>
+                                    <CheckBox IsChecked="{Binding IsUpdateSite}" HorizontalAlignment="Center"  IsEnabled="False" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        
-                        <GridViewColumn Header="Update Worker"  Width="Auto" >
+
+                        <GridViewColumn Header="Update Worker"  Width="100" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <CheckBox IsChecked="{Binding IsUpdateWorker}" IsEnabled="False" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        
-                        <GridViewColumn Header="Update Database"  Width="Auto" >
+
+                        <GridViewColumn Header="Update Database"  Width="100" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <CheckBox IsChecked="{Binding IsUpdateDb}" IsEnabled="False"/>

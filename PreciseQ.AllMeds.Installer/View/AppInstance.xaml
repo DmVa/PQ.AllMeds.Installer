@@ -32,10 +32,10 @@
                 </Grid.ColumnDefinitions>
                 
                 <Label VerticalAlignment="Center">Application Name</Label>
-                <TextBox   Grid.Row="0"  Grid.Column="1" Text="{Binding Path=VirtualApplicationName, Mode=TwoWay}" VerticalContentAlignment="Center" Margin="2"></TextBox>
+                <TextBox x:Name="AppNameTextBox"  Grid.Row="0"  Grid.Column="1" Text="{Binding Path=VirtualApplicationName, Mode=TwoWay}" VerticalContentAlignment="Center" Margin="2"></TextBox>
 
                 <Label VerticalAlignment="Center" Grid.Row="1">Connection String</Label>
-                <TextBox  Grid.Row="1" Grid.Column="1" Text="{Binding Path=ConnectionString, Mode=TwoWay}" Margin="2" VerticalContentAlignment="Center"></TextBox>
+                <TextBox x:Name="ConnStringTextBox" Grid.Row="1" Grid.Column="1" Text="{Binding Path=ConnectionString, Mode=TwoWay}" Margin="2" VerticalContentAlignment="Center"></TextBox>
                 
                 <StackPanel Grid.Row="2" Orientation="Horizontal" Grid.ColumnSpan="2"  >
                     <CheckBox IsChecked="{Binding Path=IsUpdateSite}" Margin="2,2,2,2" VerticalContentAlignment="Center">Update Site</CheckBox>

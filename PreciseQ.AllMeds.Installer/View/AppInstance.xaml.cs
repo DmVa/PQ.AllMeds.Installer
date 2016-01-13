@@ -26,7 +26,24 @@ namespace PreciseQ.AllMeds.Installer.View
         }
         private void ButtonOk_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(AppNameTextBox.Text))
+            {
+                ShowError("Application Name is required");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(ConnStringTextBox.Text))
+            {
+                ShowError("Connection String to DB is required");
+                return;
+            }
+
             DialogResult = true;
+        }
+
+        private void ShowError(string text)
+        {
+           System.Windows.MessageBox.Show(text, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void ButtonClose_Click(object sender, RoutedEventArgs e)

@@ -87,7 +87,10 @@ namespace PreciseQ.AllMeds.Installer.Updater.Components
 
         protected void AddSftpRootConfig()
         {
-            string sftpRoot = Path.Combine(SiteConfig.SftpRootFolder, ApplicationConfig.VirtualApplicationName);
+            string sftpRoot = "";
+            if (!string.IsNullOrEmpty(SiteConfig.SftpRootFolder))
+                sftpRoot = Path.Combine(SiteConfig.SftpRootFolder, ApplicationConfig.VirtualApplicationName);
+
             AddPredefinedConfig(@"/configuration/appSettings/add[@key='sftp.root']", "value", sftpRoot);
         }
 
